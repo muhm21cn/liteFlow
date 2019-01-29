@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.regex.Matcher;
 
 public abstract class XmlFlowParser {
@@ -39,10 +38,10 @@ public abstract class XmlFlowParser {
 			if(ComponentScaner.nodeComponentMap.isEmpty()){
 				// 解析node节点
 				List<Element> nodeList = rootElement.element("nodes").elements("node");
-				String id;
-				String clazz;
-				Node node;
-				NodeComponent component;
+				String id = null;
+				String clazz = null;
+				Node node = null;
+				NodeComponent component = null;
 				for (Element e : nodeList) {
 					node = new Node();
 					id = e.attributeValue("id");
@@ -53,7 +52,7 @@ public abstract class XmlFlowParser {
 					if (component == null) {
 						LOG.error("couldn't find component class [{}] ", clazz);
 					}
-					Objects.requireNonNull(component).setNodeId(id);
+					component.setNodeId(id);
 					node.setInstance(component);
 					FlowBus.addNode(id, node);
 				}
@@ -64,34 +63,34 @@ public abstract class XmlFlowParser {
 			}
 
 			// 解析chain节点
-			String chainName;
-			String condArrayStr;
-			String[] condArray;
-			List<Node> chainNodeList;
-			List<Condition> conditionList;
+			String chainName = null;
+			String condArrayStr = null;
+			String[] condArray = null;
+			List<Node> chainNodeList = null;
+			List<Condition> conditionList = null;
 
 			List<Element> chainList = rootElement.elements("chain");
 			for (Element e : chainList) {
 				chainName = e.attributeValue("name");
-				conditionList = new ArrayList<>();
+				conditionList = new ArrayList<Condition>();
 				for (Iterator<Element> it = e.elementIterator(); it.hasNext();) {
 					Element condE = it.next();
 					condArrayStr = condE.attributeValue("value");
 					if (StringUtils.isBlank(condArrayStr)) {
 						continue;
 					}
-					chainNodeList = new ArrayList<>();
+					chainNodeList = new ArrayList<Node>();
 					condArray = condArrayStr.split(",");
-					RegexEntity regexEntity;
-					Node node;
-					for (String aCondArray : condArray) {
-						regexEntity = parseNodeStr(aCondArray.trim());
+					RegexEntity regexEntity = null;
+					Node node = null;
+					for (int i = 0; i < condArray.length; i++) {
+						regexEntity = parseNodeStr(condArray[i].trim());
 						node = FlowBus.getNode(regexEntity.getCondNode());
 						chainNodeList.add(node);
-						if (regexEntity.getRealNodeArray() != null) {
-							for (String key : regexEntity.getRealNodeArray()) {
+						if(regexEntity.getRealNodeArray() != null){
+							for(String key : regexEntity.getRealNodeArray()){
 								Node condNode = FlowBus.getNode(key);
-								if (condNode != null) {
+								if(condNode != null){
 									node.setCondNode(condNode.getId(), condNode);
 								}
 							}
@@ -111,8 +110,8 @@ public abstract class XmlFlowParser {
 
 	}
 	
-	private static RegexEntity parseNodeStr(String str) {
-	    List<String> list = new ArrayList<>();
+	public static RegexEntity parseNodeStr(String str) {
+	    List<String> list = new ArrayList<String>();
 		Matcher m = PatternUtil.parseNodeStr(str);
 	    while(m.find()){
 	        list.add(m.group());
