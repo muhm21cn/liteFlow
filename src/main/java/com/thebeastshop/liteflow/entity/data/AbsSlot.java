@@ -9,15 +9,13 @@
  */
 package com.thebeastshop.liteflow.entity.data;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unchecked")
 public abstract class AbsSlot implements Slot{
@@ -40,74 +38,91 @@ public abstract class AbsSlot implements Slot{
 	
 	private final String REQUEST_ID = "req_id";
 	
-	private Deque<CmpStep> executeSteps = new ArrayDeque<CmpStep>();
+	private Deque<CmpStep> executeSteps = new ArrayDeque<>();
 	
-	protected ConcurrentHashMap<String, Object> dataMap = new ConcurrentHashMap<String, Object>();
+	private ConcurrentHashMap<String, Object> dataMap = new ConcurrentHashMap<>();
 	
+	@Override
 	public <T> T getInput(String nodeId){
 		return (T)dataMap.get(NODE_INPUT_PREFIX + nodeId);
 	}
 	
+	@Override
 	public <T> T getOutput(String nodeId){
 		return (T)dataMap.get(NODE_OUTPUT_PREFIX + nodeId);
 	}
 	
-	public <T> void setInput(String nodeId,T t){
+	@Override
+	public <T> void setInput(String nodeId, T t){
 		dataMap.put(NODE_INPUT_PREFIX + nodeId, t);
 	}
 	
-	public <T> void setOutput(String nodeId,T t){
+	@Override
+	public <T> void setOutput(String nodeId, T t){
 		dataMap.put(NODE_OUTPUT_PREFIX + nodeId, t);
 	}
 	
+	@Override
 	public <T> T getRequestData(){
 		return (T)dataMap.get(REQUEST);
 	}
 	
+	@Override
 	public <T> void setRequestData(T t){
 		dataMap.put(REQUEST, t);
 	}
 	
+	@Override
 	public <T> T getResponseData(){
 		return (T)dataMap.get(RESPONSE);
 	}
 	
+	@Override
 	public <T> void setResponseData(T t){
 		dataMap.put(RESPONSE, t);
 	}
 	
+	@Override
 	public <T> T getChainReqData(String chainId) {
 		return (T)dataMap.get(CHAIN_REQ_PREFIX + chainId);
 	}
 	
+	@Override
 	public <T> void setChainReqData(String chainId, T t) {
 		dataMap.put(CHAIN_REQ_PREFIX + chainId, t);
 	}
 	
+	@Override
 	public <T> T getData(String key){
 		return (T)dataMap.get(key);
 	}
 	
+	@Override
 	public <T> void setData(String key, T t){
 		dataMap.put(key, t);
 	}
 	
+	@Override
 	public <T> void setCondResult(String key, T t){
 		dataMap.put(COND_NODE_PREFIX + key, t);
 	}
 	
+	@Override
 	public <T> T getCondResult(String key){
 		return (T)dataMap.get(COND_NODE_PREFIX + key);
 	}
 	
+	@Override
 	public void setChainName(String chainName) {
 		dataMap.put(CHAINNAME, chainName);
 	}
 	
+	@Override
 	public String getChainName() {
 		return (String)dataMap.get(CHAINNAME);
 	}
 	
+	@Override
 	public void addStep(CmpStep step){
 		CmpStep lastStep = this.executeSteps.peekLast();
 		if(lastStep != null && lastStep.equals(step)) {
@@ -117,9 +132,10 @@ public abstract class AbsSlot implements Slot{
 		}
 	}
 	
+	@Override
 	public void printStep(){
-		StringBuffer str = new StringBuffer();
-		CmpStep cmpStep = null;
+		StringBuilder str = new StringBuilder();
+		CmpStep cmpStep;
 		for (Iterator<CmpStep> it = executeSteps.iterator(); it.hasNext();) {
 			cmpStep = it.next();
 			str.append(cmpStep);
@@ -132,7 +148,7 @@ public abstract class AbsSlot implements Slot{
 	
 	@Override
 	public void generateRequestId() {
-		dataMap.put(REQUEST_ID, new Long(System.nanoTime()).toString());
+		dataMap.put(REQUEST_ID, Long.toString(System.nanoTime()));
 	}
 	
 	@Override

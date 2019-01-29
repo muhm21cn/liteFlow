@@ -9,13 +9,12 @@
  */
 package com.thebeastshop.liteflow.flow;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.collections4.MapUtils;
-
 import com.thebeastshop.liteflow.entity.config.Chain;
 import com.thebeastshop.liteflow.entity.config.Node;
+import org.apache.commons.collections4.MapUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FlowBus {
 	
@@ -32,7 +31,7 @@ public class FlowBus {
 	
 	public static void addChain(String name,Chain chain){
 		if(chainMap == null){
-			chainMap = new HashMap<String, Chain>();
+			chainMap = new HashMap<>();
 		}
 		chainMap.put(name, chain);
 	}
@@ -43,7 +42,7 @@ public class FlowBus {
 	
 	public static void addNode(String nodeId, Node node) {
 		if(nodeMap == null) {
-			nodeMap = new HashMap<String, Node>();
+			nodeMap = new HashMap<>();
 		}
 		nodeMap.put(nodeId, node);
 	}

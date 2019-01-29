@@ -32,8 +32,14 @@ public class DComponent extends NodeComponent {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		//int i=10/0;
 		System.out.println("Dcomponent executed!");
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+		System.out.println("Dcomponent rollback executed!");
+	}
+
 }

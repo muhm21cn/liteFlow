@@ -21,5 +21,10 @@ public class GComponent extends NodeComponent {
 		System.out.println("Gcomponent executed!");
 		this.getSlot().setResponseData("i am a response");
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

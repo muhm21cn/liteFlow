@@ -1,17 +1,15 @@
 package com.thebeastshop.liteflow.test;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.annotation.Resource;
-
+import com.thebeastshop.liteflow.core.FlowExecutor;
+import com.thebeastshop.liteflow.entity.data.Slot;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.thebeastshop.liteflow.core.FlowExecutor;
-import com.thebeastshop.liteflow.entity.data.Slot;
+import javax.annotation.Resource;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 
@@ -63,4 +61,18 @@ public class TestWithSpringMain {
 		}
 		
 	}
+
+
+	@Test
+	public void test4() throws Exception {
+		try {
+			Slot slot = flowExecutor.execute("chain2", "it's a request");
+			System.out.println("done!");
+			System.in.read();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

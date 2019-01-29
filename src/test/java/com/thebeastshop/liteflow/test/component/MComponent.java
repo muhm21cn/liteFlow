@@ -9,13 +9,12 @@
  */
 package com.thebeastshop.liteflow.test.component;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.thebeastshop.liteflow.core.FlowExecutor;
 import com.thebeastshop.liteflow.core.NodeComponent;
 import com.thebeastshop.liteflow.core.NodeCondComponent;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component("m")
 public class MComponent extends NodeCondComponent {
@@ -36,5 +35,9 @@ public class MComponent extends NodeCondComponent {
 		}
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
 }

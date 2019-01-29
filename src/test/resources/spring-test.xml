@@ -13,9 +13,9 @@
  	<!-- 本地方式配置 -->
  	<bean id="flowExecutor" class="com.thebeastshop.liteflow.core.FlowExecutor">
 		<property name="rulePath">
-			<list>
-				<value>config/flow.xml</value>
-			</list>
+		<list>
+			<value>config/flow.xml</value>
+		</list>
 		</property>
 	</bean>
 	

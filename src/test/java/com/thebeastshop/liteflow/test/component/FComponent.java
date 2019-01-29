@@ -27,5 +27,10 @@ public class FComponent extends NodeComponent {
 		System.out.println("Fcomponent executed!");
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

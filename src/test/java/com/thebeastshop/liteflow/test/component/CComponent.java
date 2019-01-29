@@ -27,5 +27,10 @@ public class CComponent extends NodeComponent {
 		System.out.println("Ccomponent executed!");
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

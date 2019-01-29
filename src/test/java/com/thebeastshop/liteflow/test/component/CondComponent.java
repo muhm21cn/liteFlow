@@ -20,4 +20,9 @@ public class CondComponent extends NodeCondComponent {
 	protected Class<? extends NodeComponent> processCond() throws Exception {
 		return BComponent.class;
 	}
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
 }

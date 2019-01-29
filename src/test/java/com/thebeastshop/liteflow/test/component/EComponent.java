@@ -28,5 +28,10 @@ public class EComponent extends NodeComponent {
 		System.out.println("Eomponent executed!");
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

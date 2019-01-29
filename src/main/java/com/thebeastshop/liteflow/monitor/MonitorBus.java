@@ -9,27 +9,18 @@
  */
 package com.thebeastshop.liteflow.monitor;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimerTask;
-import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thebeastshop.liteflow.entity.data.DataBus;
 import com.thebeastshop.liteflow.entity.monitor.CompStatistics;
 import com.thebeastshop.liteflow.util.LimitQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MonitorBus {
 	
@@ -42,6 +33,7 @@ public class MonitorBus {
 	static{
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
+			@Override
 			public void run() {
 				MonitorBus.printStatistics();
 			}
@@ -52,7 +44,7 @@ public class MonitorBus {
 		if(statisticsMap.containsKey(statistics.getComponentClazzName())){
 			statisticsMap.get(statistics.getComponentClazzName()).offer(statistics);
 		}else{
-			LimitQueue<CompStatistics> queue = new LimitQueue<CompStatistics>(QUEUE_LIMIT_SIZE);
+			LimitQueue<CompStatistics> queue = new LimitQueue<>(QUEUE_LIMIT_SIZE);
 			queue.offer(statistics);
 			statisticsMap.put(statistics.getComponentClazzName(), queue);
 		}
@@ -60,7 +52,7 @@ public class MonitorBus {
 	
 	public static void printStatistics(){
 		try{
-			Map<String, BigDecimal> compAverageTimeSpent = new HashMap<String, BigDecimal>();
+			Map<String, BigDecimal> compAverageTimeSpent = new HashMap<>();
 			
 			long totalTimeSpent = 0;
 			

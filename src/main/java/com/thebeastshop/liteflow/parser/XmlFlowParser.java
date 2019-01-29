@@ -1,27 +1,22 @@
 package com.thebeastshop.liteflow.parser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.thebeastshop.liteflow.core.NodeComponent;
+import com.thebeastshop.liteflow.entity.config.*;
+import com.thebeastshop.liteflow.flow.FlowBus;
+import com.thebeastshop.liteflow.spring.ComponentScaner;
+import com.thebeastshop.liteflow.util.Dom4JReader;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thebeastshop.liteflow.core.NodeComponent;
-import com.thebeastshop.liteflow.entity.config.Chain;
-import com.thebeastshop.liteflow.entity.config.Condition;
-import com.thebeastshop.liteflow.entity.config.Node;
-import com.thebeastshop.liteflow.entity.config.ThenCondition;
-import com.thebeastshop.liteflow.entity.config.WhenCondition;
-import com.thebeastshop.liteflow.flow.FlowBus;
-import com.thebeastshop.liteflow.spring.ComponentScaner;
-import com.thebeastshop.liteflow.util.Dom4JReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class XmlFlowParser {
 	
@@ -101,9 +96,9 @@ public abstract class XmlFlowParser {
 							}
 						}
 					}
-					if (condE.getName().equals("then")) {
+					if ("then".equals(condE.getName())) {
 						conditionList.add(new ThenCondition(chainNodeList));
-					} else if (condE.getName().equals("when")) {
+					} else if ("when".equals(condE.getName())) {
 						conditionList.add(new WhenCondition(chainNodeList));
 					}
 				}

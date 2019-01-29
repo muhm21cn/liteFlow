@@ -15,6 +15,7 @@ public class LocalXmlFlowParser extends XmlFlowParser{
 
 	private final String ENCODING_FORMAT = "UTF-8";
 	
+	@Override
 	public void parseMain(String rulePath) throws Exception {
 		String ruleContent = IOUtil.read(rulePath, ENCODING_FORMAT);
 		parse(ruleContent);

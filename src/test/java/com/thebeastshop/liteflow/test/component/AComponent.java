@@ -24,5 +24,10 @@ public class AComponent extends NodeComponent {
 		
 		this.getSlot().setOutput(this.getNodeId(), "A component output");
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

@@ -9,12 +9,11 @@
  */
 package com.thebeastshop.liteflow.test.component;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.thebeastshop.liteflow.core.FlowExecutor;
 import com.thebeastshop.liteflow.core.NodeComponent;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component("p1")
 public class P1Component extends NodeComponent {
@@ -26,5 +25,10 @@ public class P1Component extends NodeComponent {
 	public void process() {
 		System.out.println("p1 component executed!");
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

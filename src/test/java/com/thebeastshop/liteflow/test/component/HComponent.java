@@ -9,13 +9,12 @@
  */
 package com.thebeastshop.liteflow.test.component;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Component;
-
 import com.thebeastshop.liteflow.core.FlowExecutor;
 import com.thebeastshop.liteflow.core.NodeComponent;
 import com.thebeastshop.liteflow.entity.data.DefaultSlot;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component("h")
 public class HComponent extends NodeComponent {
@@ -28,5 +27,10 @@ public class HComponent extends NodeComponent {
 		System.out.println("Hcomponent executed!");
 		flowExecutor.invoke("strategy1",3, DefaultSlot.class, this.getSlotIndex());
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+
+	}
+
 }

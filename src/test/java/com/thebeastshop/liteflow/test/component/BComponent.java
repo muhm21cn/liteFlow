@@ -27,5 +27,10 @@ public class BComponent extends NodeComponent {
 		System.out.println("Bcomponent executed!");
 		
 	}
-	
+
+	@Override
+	protected void rollback() throws Exception {
+		System.out.println("Bcomponent rollback executed!");
+	}
+
 }

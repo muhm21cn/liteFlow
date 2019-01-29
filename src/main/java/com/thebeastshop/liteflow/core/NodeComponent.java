@@ -27,7 +27,7 @@ public abstract class NodeComponent {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(NodeComponent.class);
 	
-	private InheritableThreadLocal<Integer> slotIndexTL = new InheritableThreadLocal<Integer>();
+	private InheritableThreadLocal<Integer> slotIndexTL = new InheritableThreadLocal<>();
 	
 	private String nodeId;
 	
@@ -67,8 +67,32 @@ public abstract class NodeComponent {
 		
 		LOG.debug("[{}]:componnet[{}] finished in {} milliseconds",slot.getRequestId(),this.getClass().getSimpleName(),timeSpent);
 	}
-	
+
+
+	public void rollbackExecute() throws Exception{
+		Slot slot = this.getSlot();
+		LOG.info("[{}]:[O]start  component[{}] rollbackExecute execution",slot.getRequestId(),this.getClass().getSimpleName());
+		slot.addStep(new CmpStep(nodeId, CmpStepType.START));
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		rollback();
+		stopWatch.stop();
+		slot.addStep(new CmpStep(nodeId, CmpStepType.END));
+		long timeSpent = stopWatch.getTime();
+		LOG.debug("[{}]:componnet[{}] rollbackExecute finished in {} milliseconds",slot.getRequestId(),this.getClass().getSimpleName(),timeSpent);
+	}
+
+	/**
+	 * 正向执行方法
+	 * @throws Exception
+	 */
 	protected abstract void process() throws Exception;
+
+	/**
+	 * 回滚方法
+	 * @throws Exception
+	 */
+	protected abstract void rollback() throws Exception;
 	
 	/**
 	 * 是否进入该节点
