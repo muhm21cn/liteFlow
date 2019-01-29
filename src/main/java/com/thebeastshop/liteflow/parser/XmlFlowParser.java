@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public abstract class XmlFlowParser {
@@ -30,7 +31,7 @@ public abstract class XmlFlowParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void parse(Document document) throws Exception {
+    private void parse(Document document) throws Exception {
 		try {
 			Element rootElement = document.getRootElement();
 
@@ -38,10 +39,10 @@ public abstract class XmlFlowParser {
 			if(ComponentScaner.nodeComponentMap.isEmpty()){
 				// 解析node节点
 				List<Element> nodeList = rootElement.element("nodes").elements("node");
-				String id = null;
-				String clazz = null;
-				Node node = null;
-				NodeComponent component = null;
+				String id;
+				String clazz;
+				Node node;
+				NodeComponent component;
 				for (Element e : nodeList) {
 					node = new Node();
 					id = e.attributeValue("id");
@@ -52,7 +53,7 @@ public abstract class XmlFlowParser {
 					if (component == null) {
 						LOG.error("couldn't find component class [{}] ", clazz);
 					}
-					component.setNodeId(id);
+					Objects.requireNonNull(component).setNodeId(id);
 					node.setInstance(component);
 					FlowBus.addNode(id, node);
 				}
@@ -63,39 +64,39 @@ public abstract class XmlFlowParser {
 			}
 
 			// 解析chain节点
-			String chainName = null;
-			String condArrayStr = null;
-			String[] condArray = null;
-			List<Node> chainNodeList = null;
-			List<Condition> conditionList = null;
+			String chainName;
+			String condArrayStr;
+			String[] condArray;
+			List<Node> chainNodeList;
+			List<Condition> conditionList;
 
 			List<Element> chainList = rootElement.elements("chain");
 			for (Element e : chainList) {
 				chainName = e.attributeValue("name");
-				conditionList = new ArrayList<Condition>();
+				conditionList = new ArrayList<>();
 				for (Iterator<Element> it = e.elementIterator(); it.hasNext();) {
 					Element condE = it.next();
 					condArrayStr = condE.attributeValue("value");
 					if (StringUtils.isBlank(condArrayStr)) {
 						continue;
 					}
-					chainNodeList = new ArrayList<Node>();
+					chainNodeList = new ArrayList<>();
 					condArray = condArrayStr.split(",");
-					RegexEntity regexEntity = null;
-					Node node = null;
-					for (int i = 0; i < condArray.length; i++) {
-						regexEntity = parseNodeStr(condArray[i].trim());
-						node = FlowBus.getNode(regexEntity.getCondNode());
-						chainNodeList.add(node);
-						if(regexEntity.getRealNodeArray() != null){
-							for(String key : regexEntity.getRealNodeArray()){
-								Node condNode = FlowBus.getNode(key);
-								if(condNode != null){
-									node.setCondNode(condNode.getId(), condNode);
-								}
-							}
-						}
-					}
+					RegexEntity regexEntity;
+					Node node;
+                    for (String aCondArray : condArray) {
+                        regexEntity = parseNodeStr(aCondArray.trim());
+                        node = FlowBus.getNode(regexEntity.getCondNode());
+                        chainNodeList.add(node);
+                        if (regexEntity.getRealNodeArray() != null) {
+                            for (String key : regexEntity.getRealNodeArray()) {
+                                Node condNode = FlowBus.getNode(key);
+                                if (condNode != null) {
+                                    node.setCondNode(condNode.getId(), condNode);
+                                }
+                            }
+                        }
+                    }
 					if ("then".equals(condE.getName())) {
 						conditionList.add(new ThenCondition(chainNodeList));
 					} else if ("when".equals(condE.getName())) {
@@ -110,8 +111,8 @@ public abstract class XmlFlowParser {
 
 	}
 	
-	public static RegexEntity parseNodeStr(String str) {
-	    List<String> list = new ArrayList<String>();
+	private static RegexEntity parseNodeStr(String str) {
+	    List<String> list = new ArrayList<>();
 		Matcher m = PatternUtil.parseNodeStr(str);
 	    while(m.find()){
 	        list.add(m.group());
