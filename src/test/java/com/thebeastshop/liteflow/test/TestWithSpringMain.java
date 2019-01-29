@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring-test.xml"})
 public class TestWithSpringMain {
 	
 	@Resource(name="flowExecutor")

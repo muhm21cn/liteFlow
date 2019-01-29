@@ -13,6 +13,9 @@ public class PatternUtil {
 
     private  static String classConfigPattern="^\\w+(\\.\\w+)*$";
 
+    private  static String parseNodeStr="[^\\)\\(]+";
+
+
     public static boolean isZKConfig(String path) {
         Pattern p = Pattern.compile(zKConfigPattern);
         Matcher m = p.matcher(path);
@@ -30,4 +33,10 @@ public class PatternUtil {
         Matcher m = p.matcher(path);
         return m.find();
     }
+    public static Matcher parseNodeStr(String path) {
+        Pattern p = Pattern.compile(parseNodeStr);
+        return p.matcher(path);
+    }
+
+
 }

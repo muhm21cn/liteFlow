@@ -10,7 +10,10 @@
 package com.thebeastshop.liteflow.entity.data;
 
 public enum CmpStepType {
+	//开始状态
 	START,
+	//结束状态
 	END,
+	//串行
 	SINGLE;
 }

@@ -5,6 +5,7 @@ import com.thebeastshop.liteflow.entity.config.*;
 import com.thebeastshop.liteflow.flow.FlowBus;
 import com.thebeastshop.liteflow.spring.ComponentScaner;
 import com.thebeastshop.liteflow.util.Dom4JReader;
+import com.thebeastshop.liteflow.util.PatternUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -16,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class XmlFlowParser {
 	
@@ -112,8 +112,7 @@ public abstract class XmlFlowParser {
 	
 	public static RegexEntity parseNodeStr(String str) {
 	    List<String> list = new ArrayList<String>();
-	    Pattern p = Pattern.compile("[^\\)\\(]+");
-	    Matcher m = p.matcher(str);
+		Matcher m = PatternUtil.parseNodeStr(str);
 	    while(m.find()){
 	        list.add(m.group());
 	    }
