@@ -1,8 +1,6 @@
 package com.thebeastshop.liteflow.parser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +56,15 @@ public abstract class XmlFlowParser {
 						LOG.error("couldn't find component class [{}] ", clazz);
 					}
 					component.setNodeId(id);
+					// add by David Mu Start
+					List<Element> paramList = e.elements("param");
+					Map<String, String> params = new HashMap<>();
+					for (Element p : paramList) {
+						params.put(p.attributeValue("key"), p.attributeValue("value"));
+					}
+					node.setParams(params);
+					component.initNode(params);
+					// add by David Mu End
 					node.setInstance(component);
 					FlowBus.addNode(id, node);
 				}

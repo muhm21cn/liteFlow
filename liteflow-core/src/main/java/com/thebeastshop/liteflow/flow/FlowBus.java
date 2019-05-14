@@ -51,4 +51,12 @@ public class FlowBus {
 	public static Node getNode(String nodeId) {
 		return nodeMap.get(nodeId);
 	}
+
+	public static Map<String, Chain> getChainMap() {
+		return chainMap;
+	}
+
+	public static Map<String, Node> getNodeMap() {
+		return nodeMap;
+	}
 }

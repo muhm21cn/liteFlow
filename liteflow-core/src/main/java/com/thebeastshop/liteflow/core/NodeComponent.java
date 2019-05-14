@@ -23,6 +23,8 @@ import com.thebeastshop.liteflow.entity.monitor.CompStatistics;
 import com.thebeastshop.liteflow.flow.FlowBus;
 import com.thebeastshop.liteflow.monitor.MonitorBus;
 
+import java.util.Map;
+
 public abstract class NodeComponent {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NodeComponent.class);
@@ -89,6 +91,13 @@ public abstract class NodeComponent {
 	 */
 	protected boolean isEnd() {
 		return false;
+	}
+
+	/**
+	 * 从配置文件读取初始化参数后执行节点初始化
+	 * */
+	public NodeComponent initNode(Map params) {
+		return this;
 	}
 
 	public NodeComponent setSlotIndex(Integer slotIndex) {

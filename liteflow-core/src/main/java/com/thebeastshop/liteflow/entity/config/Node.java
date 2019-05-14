@@ -23,6 +23,8 @@ public class Node {
 	private NodeComponent instance;
 	
 	private Map<String, Node> condNodeMap = new HashMap<String, Node>();
+
+	private Map<String, String> params;
 	
 	public Node(){
 		
@@ -64,5 +66,13 @@ public class Node {
 	
 	public void setCondNode(String nodeId, Node condNode){
 		this.condNodeMap.put(nodeId, condNode);
+	}
+
+	public Map<String, String> getParams() {
+		return params;
+	}
+
+	public void setParams(Map<String, String> params) {
+		this.params = params;
 	}
 }
